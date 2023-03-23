@@ -41,6 +41,10 @@ class PinItem extends Component {
     clearTimeout(this.inputTimeout);
   }
 
+  componentDidMount() {
+    console.log("react-pin-input");
+  }
+
   onKeyDown(e) {
     if (e.keyCode === 8 && (!this.state.value || !this.state.value.length)) {
       this.props.onBackspace();
