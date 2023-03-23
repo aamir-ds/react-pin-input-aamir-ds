@@ -1,16 +1,16 @@
-import PropTypes from 'prop-types';
-import React, { Component } from 'react';
-import PinItem from './PinItem';
+import PropTypes from "prop-types";
+import React, { Component } from "react";
+import PinItem from "./PinItem";
 
 /**
  */
 class PinInput extends Component {
   constructor(props) {
     super(props);
-  
+
     this.values = Array(props.length)
-      .fill('')
-      .map((x, i) => props.initialValue.toString()[i] || '');
+      .fill("")
+      .map((x, i) => props.initialValue.toString()[i] || "");
     this.elements = [];
     this.currentIndex = 0;
 
@@ -23,7 +23,7 @@ class PinInput extends Component {
   }
 
   clear() {
-    this.elements.forEach(e => e.clear());
+    this.elements.forEach((e) => e.clear());
     this.values = this.values.map(() => undefined);
     this.elements[0].focus();
   }
@@ -47,7 +47,7 @@ class PinInput extends Component {
     }
 
     // Notify the parent
-    const pin = this.values.join('');
+    const pin = this.values.join("");
 
     if (!isPasting) {
       onChange(pin, currentIndex);
@@ -80,11 +80,11 @@ class PinInput extends Component {
 
   render() {
     return (
-      <div style={this.props.style} className='pincode-input-container'>
+      <div style={this.props.style} className="pincode-input-container">
         {this.values.map((e, i) => (
           <PinItem
             initialValue={e}
-            ref={n => (this.elements[i] = n)}
+            ref={(n) => (this.elements[i] = n)}
             key={i}
             disabled={this.props.disabled}
             onBackspace={() => this.onBackspace(i)}
@@ -101,6 +101,7 @@ class PinInput extends Component {
             ariaLabel={this.props.ariaLabel}
             placeholder={this.props.placeholder}
             secretDelay={this.props.secretDelay}
+            onBlur={this.props.onBlur}
           />
         ))}
       </div>
@@ -129,8 +130,8 @@ PinInput.propTypes = {
 };
 
 PinInput.defaultProps = {
-  initialValue: '',
-  type: 'numeric',
+  initialValue: "",
+  type: "numeric",
   secret: false,
   validate: null,
   focus: false,
@@ -143,8 +144,8 @@ PinInput.defaultProps = {
   inputFocusStyle: {},
   autoSelect: true,
   regexCriteria: /^[a-zA-Z0-9]+$/,
-  ariaLabel: '',
-  placeholder: ''
+  ariaLabel: "",
+  placeholder: "",
 };
 
 export default PinInput;

@@ -1,19 +1,19 @@
-import PropTypes from 'prop-types';
-import React, { Component } from 'react';
+import PropTypes from "prop-types";
+import React, { Component } from "react";
 
 const styles = {
   input: {
     padding: 0,
-    margin: '0 2px',
-    textAlign: 'center',
-    border: '1px solid',
-    background: 'transparent',
-    width: '50px',
-    height: '50px',
+    margin: "0 2px",
+    textAlign: "center",
+    border: "1px solid",
+    background: "transparent",
+    width: "50px",
+    height: "50px",
   },
   inputFocus: {
-    outline: 'none',
-    boxShadow: 'none',
+    outline: "none",
+    boxShadow: "none",
   },
 };
 
@@ -38,7 +38,7 @@ class PinItem extends Component {
 
   componentWillUnmount() {
     clearTimeout(this.secretTimeout);
-    clearTimeout(this.inputTimeout)
+    clearTimeout(this.inputTimeout);
   }
 
   onKeyDown(e) {
@@ -49,17 +49,17 @@ class PinItem extends Component {
 
   clear() {
     this.setState({
-      value: '',
+      value: "",
     });
   }
 
-  setSecretDelayed(value){
+  setSecretDelayed(value) {
     this.setState({ showSecret: false });
-    this.secretTimeout =  setTimeout(()=>{
-        this.setState({
-          showSecret: value ? true : false,
-        });
-      } ,this.props.secretDelay);
+    this.secretTimeout = setTimeout(() => {
+      this.setState({
+        showSecret: value ? true : false,
+      });
+    }, this.props.secretDelay);
   }
 
   update(updatedValue, isPasting = false) {
@@ -71,10 +71,10 @@ class PinItem extends Component {
         value,
       });
 
-     this.inputTimeout = setTimeout(() => {
+      this.inputTimeout = setTimeout(() => {
         this.props.onChange(value, isPasting);
       }, 0);
-    } 
+    }
   }
 
   onChange(e) {
@@ -101,56 +101,56 @@ class PinItem extends Component {
       return;
     }
 
-    const value = e.clipboardData.getData('text');
+    const value = e.clipboardData.getData("text");
     this.props.onPaste(value);
   }
 
   validate(value) {
-    if(this.props.secretDelay) this.setSecretDelayed(value)
+    if (this.props.secretDelay) this.setSecretDelayed(value);
 
     if (this.props.validate) {
       return this.props.validate(value);
     }
 
-    if (this.props.type === 'numeric') {
+    if (this.props.type === "numeric") {
       const numCode = value.charCodeAt(0);
       const isInteger =
-        numCode >= '0'.charCodeAt(0) && numCode <= '9'.charCodeAt(0);
-      return isInteger ? value : '';
+        numCode >= "0".charCodeAt(0) && numCode <= "9".charCodeAt(0);
+      return isInteger ? value : "";
     }
     if (this.props.regexCriteria.test(value)) {
       return value.toUpperCase();
     }
 
-    return '';
+    return "";
   }
 
   render() {
     const { focus, value } = this.state;
-    const { type, inputMode, inputStyle, inputFocusStyle } = this.props;
-    const inputType = type === 'numeric' ? 'tel' : type || 'text';
+    const { type, inputMode, inputStyle, inputFocusStyle, onBlur } = this.props;
+    const inputType = type === "numeric" ? "tel" : type || "text";
     return (
       <input
-        disabled={this.props.disabled ? 'disabled' : undefined}
-        className='pincode-input-text'
+        disabled={this.props.disabled ? "disabled" : undefined}
+        className="pincode-input-text"
         onChange={this.onChange}
         onKeyDown={this.onKeyDown}
         placeholder={this.props.placeholder ? this.props.placeholder : value}
         aria-label={this.props.ariaLabel ? this.props.ariaLabel : value}
-        maxLength='1'
-        autoComplete='off'
-        type={this.state.showSecret ? 'password' : inputType}
-        inputMode={inputMode || 'text'}
-        pattern={this.props.type === 'numeric' ? '[0-9]*' : '^[a-zA-Z0-9]+$'}
-        ref={n => (this.input = n)}
+        maxLength="1"
+        autoComplete="off"
+        type={this.state.showSecret ? "password" : inputType}
+        inputMode={inputMode || "text"}
+        pattern={this.props.type === "numeric" ? "[0-9]*" : "^[a-zA-Z0-9]+$"}
+        ref={(n) => (this.input = n)}
         onFocus={this.onFocus}
-        onBlur={this.onBlur}
+        onBlur={onBlur}
         onPaste={this.onPaste}
         style={Object.assign(
           {},
           styles.input,
           inputStyle,
-          focus ? Object.assign({}, styles.inputFocus, inputFocusStyle) : {},
+          focus ? Object.assign({}, styles.inputFocus, inputFocusStyle) : {}
         )}
         value={value}
       />
@@ -175,19 +175,20 @@ PinItem.propTypes = {
   regexCriteria: PropTypes.any,
   ariaLabel: PropTypes.string,
   placeholder: PropTypes.string,
+  onBlur: PropTypes.func,
 };
 
 PinItem.defaultProps = {
   secret: false,
-  type: 'numeric',
+  type: "numeric",
   inputMode: undefined,
   disabled: false,
   validate: undefined,
   autoSelect: false,
   onPaste: undefined,
   regexCriteria: /^[a-zA-Z0-9]+$/,
-  ariaLabel: '',
-  placeholder: ''
+  ariaLabel: "",
+  placeholder: "",
 };
 
 export default PinItem;

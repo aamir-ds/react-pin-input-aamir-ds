@@ -14,6 +14,7 @@ declare module "react-pin-input" {
     focus?: boolean;
     onChange?: (value: string, index: number) => void;
     onComplete?: (value: string, index: number) => void;
+    onBlur?: () => void;
     style?: React.CSSProperties;
     inputStyle?: React.CSSProperties;
     inputFocusStyle?: React.CSSProperties;
